@@ -1,16 +1,31 @@
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContacts } from 'redux/contacts/contactsSlice';
 import css from './ContactsList.module.css'
 
-export function ContactsList({ contacts, onButtonDelete }) {
+export function ContactsList() {
+
+  const contacts = useSelector(state => state.contactData.contacts);
+  const filter = useSelector(state => state.contactData.filter);
+
+  const dispatch = useDispatch();
+
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().trim().includes(filter.toLowerCase())
+  );
+
+  const handleDelete = event => {
+     dispatch(deleteContacts(event.target.id));
+   };
+
   return (
     <ul className={css.contactsList}>
-      {contacts.map(({ id, name, number }) => (
+      {filteredContacts.map(({ id, name, number }) => (
         <ContactListItem
           key={id}
           name={name}
           number={number}
-          onButtonDelete={onButtonDelete}
+          onButtonDelete={handleDelete}
           buttonId={id}
         />
       ))}
@@ -18,13 +33,4 @@ export function ContactsList({ contacts, onButtonDelete }) {
   );
 }
 
-ContactsList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-};
 
