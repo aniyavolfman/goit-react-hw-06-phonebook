@@ -2,11 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import css from './Form.module.css'
-import { addName, addNumber, setContacts } from 'redux/contacts/contactsSlice';
+import { addName, addNumber, getContactsList, setContacts } from 'redux/contacts/contactsSlice';
 
 export function Form() {
   
-  const contacts = useSelector(state => state.contactData.contacts);
+  const contacts = useSelector(getContactsList);
 
   const dispatch = useDispatch();
 
