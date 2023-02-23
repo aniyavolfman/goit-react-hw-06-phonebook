@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { contactsReducer } from './contacts/contactsSlice';
+import { persistStore } from 'redux-persist';
 
 export const store = configureStore({
   reducer: {
@@ -7,3 +8,4 @@ export const store = configureStore({
   },
 });
 
+export const persistor = persistStore(store);
