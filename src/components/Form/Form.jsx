@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import css from './Form.module.css'
-import { addName, addNumber, getContactsList, setContacts } from 'redux/contacts/contactsSlice';
+import {getContactsList, setContacts } from 'redux/contacts/contactsSlice';
 
 export function Form() {
   
@@ -10,8 +10,8 @@ export function Form() {
 
   const dispatch = useDispatch();
 
-  const name = useSelector(state => state.contactData.name) ?? '';
-  const number = useSelector(state => state.contactData.number) ?? '';
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState(''); 
 
   const handleInputChange = event => {
     const inputValue = event.target.value;
@@ -19,10 +19,10 @@ export function Form() {
 
     switch (inputName) {
       case 'name':
-        dispatch(addName(inputValue));
+        setName(inputValue);
         break;
       case 'number':
-        dispatch(addNumber(inputValue));
+        setNumber(inputValue);
         break;
       default:
         break;
@@ -37,8 +37,9 @@ export function Form() {
     };
 
     addContact(contact);
-    dispatch(addName(''));
-    dispatch(addNumber(''));
+
+    setName('');
+    setNumber('');
   };
 
   const addContact = contact => {
